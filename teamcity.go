@@ -4,6 +4,7 @@ import (
 	"net/http"
 	"encoding/json"
 	"io/ioutil"
+	"fmt"
 )
 
 func get(url string, resource interface{}) error {
@@ -46,6 +47,10 @@ func ChangesBetweenBuilds(baseURL string, buildType string, firstBuildNumber str
 
 	buildsURL := fmt.Sprintf("%s/guestAuth/app/rest/builds/?locator=buildType:%s,sinceBuild:%s", baseURL, buildType, firstBuildNumber)
 	err := get(buildsURL, interface{}(&builds))
+	
+	if err != nil {
+		return changes, err
+	}
 	
 	fmt.Printf("%s", builds)
 	
